@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="responsi.css">
+    
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('buscartelefono').addEventListener('click', buscartelefono);
+            document.getElementById('buscaractividad').addEventListener('click', buscaractividad);
+            document.getElementById('buscarrevisita').addEventListener('click', buscarrevisita);
+            document.getElementById('limpiarTablaBtn').addEventListener('click', function() {
+                limpiarCaja();
+                limpiarTabla();
+            });
+
+            function buscartelefono() {
+                var ruta = document.getElementById("ruta").value;
+
+                var mensajeElement = document.getElementById("mensaje");
+                mensajeElement.innerHTML = "Folder de Encuestas Abiertas (GEIHP) BITACORA";
+
+                var resultadosDiv = document.getElementById('resultados');
+                resultadosDiv.innerHTML = '<div class="tipofuente" style="margin: auto; text-align: center; padding: 10px;"><img src="image/XmRW.gif" alt="loading" width="200" height="200"/><br><br>Un momento, por favor...</div>';
+
+                setTimeout(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "pages/bitacora.php",
+                        data: {ruta: ruta},
+                        success: function(r) {
+                            resultadosDiv.innerHTML = r;
+                        }
+                    });
+                }, 1000);
+            }
+
+            function buscaractividad() {
+                var ruta = document.getElementById("ruta").value;
+                var mensajeElement = document.getElementById("mensaje");
+                mensajeElement.innerHTML = "Folder de Encuestas Abiertas (GEIHP) INDICADORES";
+                var resultadosDiv = document.getElementById('resultados');
+                resultadosDiv.innerHTML = '<div class="tipofuente" style="margin: auto; text-align: center; padding: 10px;"><img src="image/XmRW.gif" alt="loading" width="200" height="200"/><br><br>Un momento, por favor...</div>';
+
+                setTimeout(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "pages/actividad.php",
+                        data: {ruta: ruta},
+                        success: function(r) {
+                            resultadosDiv.innerHTML = r;
+                        }
+                    });
+                }, 1000);
+            }
+            
+            function buscarrevisita() {
+                var ruta = document.getElementById("ruta").value;
+                var mensajeElement = document.getElementById("mensaje");
+                mensajeElement.innerHTML = "Folder de Encuestas Abiertas (GEIHP) REVISITA";
+
+                var resultadosDiv = document.getElementById('resultados');
+                resultadosDiv.innerHTML = '<div class="tipofuente" style="margin: auto; text-align: center; padding: 10px;"><img src="image/XmRW.gif" alt="loading" width="200" height="200"/><br><br>Un momento, por favor...</div>';
+
+                setTimeout(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "pages/revisitas.php",
+                        data: {ruta: ruta},
+                        success: function(r) {
+                            resultadosDiv.innerHTML = r;
+                        }
+                    });
+                }, 1000);
+            }
+
+            function limpiarCaja() {
+                document.getElementById("ruta").value = "";
+                var mensajeElement = document.getElementById("mensaje");
+                mensajeElement.innerHTML = "Folder de Encuestas Abiertas (GEIHP)";
+            }
+
+            function limpiarTabla() {
+                document.getElementById('resultados').innerHTML = '';
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(35deg, rgba(35,152,195,255) 23%, rgba(7,77,139,255) 100%) fixed;
+        }
+    </style>
+</head>
+<body>
+
+<div style="width: 70%; margin: 0 auto; margin-top: 2rem;">
+        <div class="card">
+            <div class="card-header bg-primary" style="display: flex; justify-content: center;">
+                <h5 id ="mensaje" style="margin: auto;">Folder de Encuestas Abiertas (GEIHP)</h5>
+            </div>
+
+            <div class="card-body" style="background-color:#98DBE1">
+            <form method="post" action="buscar" style="background-color:#98DBE1">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="form-group">
+        <button type="button" class="btn btn-outline-success" id="buscartelefono" name="buscartelefono" style="display: block; width: 100%;">BITACORA</button>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-outline-success" id="buscaractividad" name="buscaractividad" style="display: block; width: 100%;">INDICADORES</button>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-outline-success" id="buscarrevisita" name="buscarrevisita" style="display: block; width: 100%;">REVISITAS</button>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-outline-danger" id="limpiarTablaBtn" name="limpiarCaja" style="display: block; width: 100%;">LIMPIAR</button>
+      </div>
+    </div>
+    <div class="col-md-10 my-5">
+      <div class="form-group">
+        <input type="text" class="form-control" id="ruta" name="ruta" required placeholder="Pegar ruta aquí"> 
+      </div>
+    </div>
+  </div>
+</form>
+
+
+              
+            </div>
+        </div>
+    </div>
+   
+    <br><br> 
+    <div id="resultados"></div>
+</body>
+<footer>
+<div style="width: 70%; margin: 0 auto; margin-top: 1rem; text-align: center;">
+    <div style="display: block;">
+        <p style="margin: 0;">Elaborado: Ing Felix Barros_febarrosa@dane.gov.co</p>
+        <p style="margin: 0;">Modificado: Ing Richard Fuentes_rafuentem@dane.gov.co</p>
+    </div>
+</div>
+
+
+
+</footer>
+</html>
